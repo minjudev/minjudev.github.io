@@ -45,7 +45,7 @@
 Data link 계층은 상위 계층의 패킷을 전달받아 프레임 형태로 변환하여 Physical 계층에 전달한다.   
 이때, 이더넷 헤더에는 상위 계층의 프로토콜 정보와 출발지 주소, 도착지 주소에 대한 정보가 담긴다.  
 <img width="600" alt="Ethernet V2 구조" src="https://user-images.githubusercontent.com/53208493/81695716-f33f2700-949d-11ea-8e95-07839995c00a.PNG">
-> [이미지 출처: Ethernet Frame의 기능과 구조](https://mr-zero.tistory.com/38)
+> 이미지 출처: [Ethernet Frame의 기능과 구조](https://mr-zero.tistory.com/38)
 
 - Preamble
   - Physical 계층에서 전송된 비트 패턴으로 송신자와 수신자의 동기를 맞추는 데 사용됨
@@ -184,32 +184,95 @@ ex. 210.100.100.1이란 클래스 C의 IP 주소가 있다.
 - 1. 디폴트 서브넷 마스크
   - 주어진 클래스 C를 전혀 가공하지 않고, 쪼개지 않고 그대로 사용
   - 주어진 클래스 C를 모두 쓰는 경우에도 서브넷 마스크는 따라다니는데 그게 바로 "디폴트 서브넷 마스크", 즉 "기본 서브넷 마스크"
+  - 클래스 A: 255.0.0.0   
+    클래스 B: 255.255.0.0   
+    클래스 C: 255.255.255.0
+  
 - 2. 서브넷 마스크 
-  - 주어진 네트워크를 가공해서, 쪼개서 사용하는 경우
-  - 커다란 네트워크를 잘게 나누기 위해 필요
+  - 배경: 다섯 개의 클래스로 구분되는 IP 주소 체계만으로는 IP 주소를 세분화하여 관리 불가
+  - 주어진 네트워크를 가공해서, 쪼개서 사용하는 경우(커다란 네트워크를 잘게 나누기 위해 필요)
   - 주어진 IP 주소를 네트워크 환경에 맞게 나누어 주기 위해서 씌워주는 2진수 조합
   - IP 주소를 통해 어디까지가 네트워크 부분이고, 어디까지가 호스트 부분인지를 나타내는 역할    
   (네트워크 부분: 서브넷 마스크가 2진수로 '1'인 부분, 호스트 부분: 2진수로 '0'인 부분)
+  - 클래스 A, B, C에서 호스트 부분을 다시 서브넷과 호스트로 구분하는 역할
+    - 예시: 클래스 C에서 마지막 8비트 호스트 부분을 2비트, 
+  - 서브넷 마스크 적용 예시
+    - IP 주소: 192.168.100.3
+    - 서브넷 마스크: 255.255.255.0
+    - 네트워크 주소: 192.168.100.0
+    - 네트워크 아이디: 192.168.100
+    - 호스트 아이디: 0.3
+    - 범위: 192.168.100.0 ~ 192.168.100.255
+    - 서브넷 브로트캐스트 주소(호스트 아이디 전체가 1인 주소): 192.168.100.255
   
-  
-  
-
 ## 3. TCP/IP
 ### 1) TCP/IP Internet 계층
-### 2) ICMP
+  - 네트워크 계층의 핵심 프로토콜로 전달 계층으로부터 세그먼트를 받아서 인접한 네트워크가 요구하는 크기의 패킷으로 분할 전송한다.
+  - 경로는 제공하지만 흐름 제어나 에러 제어에 대한 기능은 없음
+  
+### 2) ICMP(Internet Control Message Protocol)
+#### (1) 설명
+IP는 신뢰성을 보장하지 않는다. 따라서 네트워크 장애나 중계 라우터 등의 에러에 대처할 수 없다.    
+이런 경우 수신 측에서 송신 측으로 데이터의 사고에 대한 내용을 전달할 필요가 있다. ICMP는 이와 같은 오류 정보를 발견해 송신 측에 메시지를 전달하는 기능을 한다. 
+- ICMP messages
+  - Error-reporting
+    - Destination unreachable
+    - Source quench
+    - Time exceeded
+    - Parameter problems
+    - Redirection
+    
+  - Query
+    - Echo request and reply
+    - Timestamp request and reply
+    - Address mask request and reply
+    - Router solicitation and advertisement
+
+#### (2) 특징
+- 모든 IP 구현은 ICMP를 동반해야 한다.
+- ICMP는 IP Packet과 함께 실행된다.
+- ICMP는 오류 보고나 제어 목적이지 IP Data Packet을 신뢰할 수 있는 전송 기능을 가지고 있지 않다.
+- ICMP는 첫 번째 IP Datagram 단편화에 대해서만 오류를 보고한다.
+- ICMP는 IP Datagram에 대한 오류 보고 메커니즘이지 Datagram 문제에 관한 오류 메시지를 발생시키지는 않는다. 
+
 ### 3) Port number
+- 16bit로 표기: 2의 16제곱, 0 ~ 65535
+- 포트의 3가지 범위
+  - System Port: 0 ~ 1023
+  - User Port: 1024 ~ 49151
+  - Private Port(Dynamic Port): 49152 ~ 65535
+
 ### 4) TCP Header 구조
-### 5) OP Code
+<img width="409" alt="1" src="https://user-images.githubusercontent.com/53208493/81813132-129f8800-9562-11ea-8cb7-c3f5fbe52b7a.PNG">
+
+> 이미지 출처: [정보통신기술용어해설](http://www.ktword.co.kr/abbr_view.php?m_temp1=1889)
+- Sequence number, Acknowledgment number: 통신이 어디까지 갔는지에 대한 통신의 흐름 인지
+- urg, ack, psh, rst, syn, fin: 통신의 현재 상태를 나타냄
+
+### 5) OP Code(제어 플래그)
+- URG: 수신지가 이미 흐르고 있는 옥탯을 처리하는 것을 기다리지 않고, 대역을 벗어나 데이터를 보내기 위해 사용(Telnet에서 인터럽트형 명령 전송 시 사용)
+- ACK: 수신 통지 번호가 유효하다는 것을 나타냄
+- PSH: TCP가 이 메시지를 상위 계층 프로세스에 즉시 전달할 수 있게 함
+- RST: 복구되지 않는 오류로 인해 가상 회로를 리셋하기 위해 사용
+- SYN: 가상 회로 연결의 시작을 나타냄ㄱ
+- FIN: 연결을 종료하기 위해 사용
+
 ### 6) UDP(User Datagram Protocol) Format
+- UDP Header는 총 8byte의 고정 Header 길이를 가지고 있다.
+- 발신지와 출발지 Port의 길이는 2의 16제곱 bit, 즉 65535에 해당하는 포트 번호가 송수신 시스템에 존재할 수 있다.
+- Total Length는 UDP Header와 데이터를 합친 전체 길이를 byte로 표시한다.
+- checksum은 TCP 헤더와 동일하나 UDP는 선택 사항이다.
 
-
-
-
-
-
-
-
-
-
-
-
+## 4. 네트워크 기본 명령어
+- MAC/IP Address 확인: ipconfig / all
+- ARP Cache 확인: arp -a
+- 라우팅 테이블 확인:   
+  route print   
+  netstat -nr   
+- 핑테스트(ping test): 특정 시스템까지 경로 및 시스템 IP통신 확인    
+  ping 192.168.43.1
+  ping 168.126.63.1
+- 경로 추적: tracert 168.126.63.1
+- 연결된 세션 정보 확인: netstat -an
+- NetBios Cache 정보 확인: nbstat -n
+- DNS Cache 정보 확인: ipconfig /displaydns
