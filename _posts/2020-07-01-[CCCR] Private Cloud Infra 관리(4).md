@@ -124,15 +124,23 @@
 ![Screenshot from 2020-07-02 10-50-12](https://user-images.githubusercontent.com/53208493/86307501-e0510380-bc51-11ea-8957-c2174b038822.png)
 
 ### (7) Instance
-- Project -> Compute -> Instances
-![Screenshot from 2020-07-02 10-51-55](https://user-images.githubusercontent.com/53208493/86307696-59e8f180-bc52-11ea-9400-e84b691c06f0.png)
+- Project -> Compute -> Instances   
+- 이미지 선택   
+![Screenshot from 2020-07-02 10-51-55](https://user-images.githubusercontent.com/53208493/86307696-59e8f180-bc52-11ea-9400-e84b691c06f0.png)   
+- flavor 선택   
 ![Screenshot from 2020-07-02 10-52-01](https://user-images.githubusercontent.com/53208493/86307698-5a818800-bc52-11ea-9c7f-1dda6760fd78.png)
+- 네트워크 선택   
 ![Screenshot from 2020-07-02 10-52-08](https://user-images.githubusercontent.com/53208493/86307700-5a818800-bc52-11ea-9c53-0563ab54f681.png)
+- 보안 그룹 선택   
 ![Screenshot from 2020-07-02 10-52-17](https://user-images.githubusercontent.com/53208493/86307702-5b1a1e80-bc52-11ea-80a2-d335930b2963.png)
+- 키 페어 선택  
 ![Screenshot from 2020-07-02 10-52-24](https://user-images.githubusercontent.com/53208493/86307704-5bb2b500-bc52-11ea-88fc-cf7ce4e8447a.png)
-
+- 유동 IP 연결   
 ![Screenshot from 2020-07-02 10-55-03](https://user-images.githubusercontent.com/53208493/86307761-8e5cad80-bc52-11ea-9cb8-c66c4e02150b.png)
+- 키 생성 시 다운로드 받은 키 파일에 대한 권한 수정   
+  - 소유자만이 읽고 쓰기가 가능한 상태여야 키 파일 사용 가능
 ![Screenshot from 2020-07-02 10-59-39](https://user-images.githubusercontent.com/53208493/86308033-2fe3ff00-bc53-11ea-9f5c-2eb867ba5e46.png)
+- 키 파일을 이용한 ssh 인증    
 ![Screenshot from 2020-07-02 11-00-34](https://user-images.githubusercontent.com/53208493/86308085-4a1ddd00-bc53-11ea-8753-352c7d16e1d5.png)
 
 ### (8) Volume
