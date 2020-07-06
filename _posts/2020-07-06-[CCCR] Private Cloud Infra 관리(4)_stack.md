@@ -2,7 +2,7 @@
 - OpenStack에서 Heat 서비스를 이용해 유동 IP가 연결된 가상머신 만들기
 ![Untitled Diagram (1)](https://user-images.githubusercontent.com/53208493/86601355-2a344380-bfdc-11ea-8c15-73e16970a460.png)
 
-### 절차
+### 순서
 1. Heat 설치(controller node에서 진행)
 2. 네트워크와 서브넷 연결
 3. 네트워크와 포트 연결
@@ -47,3 +47,30 @@ systemctl restart httpd
 
 - 라우터를 **네트워크와 서브넷 중 어디에 연결하는지가 매우 중요**
 - 라우터와 서브넷 연결하기
+
+## 실습 2
+- OpenStack에서 Heat 서비스를 이용해 2개의 인스턴스를 만든 후 로드밸런서 구성하기
+![Untitled Diagram (2)](https://user-images.githubusercontent.com/53208493/86653792-6c7f7400-c020-11ea-8e06-0656dae5c96a.png)
+
+### 순서
+1. Template Generator를 이용해 2개의 웹 인스턴스 띄우기
+    1) 네트워크와 서브넷 연결
+    2) 네트워크와 포트 연결
+    3) 서브넷과 포트 연결
+    4) 네트워크와 웹 서버 2개 연결
+    5) 라우터와 서브넷 연결
+    6) 포트와 유동 아이피 연결
+  
+2. yaml 파일을 작성해 로드밸런서 구성하기
+
+
+### 내용
+
+
+
+
+
+
+
+
+
