@@ -19,8 +19,19 @@ yum -y install openstack-heat-ui
 systemctl restart httpd
 ```
 
-2. 네트워크와 서브넷 연결
-3. 네트워크와 포트 연결
+2. 네트워크와 서브넷 연결   
+- 네트워크 설정   
+![Screenshot from 2020-07-09 19-30-40](https://user-images.githubusercontent.com/53208493/87029369-06ab0c00-c21b-11ea-91cb-5a7fe083a3e5.png)
+- 서브넷 설정   
+![Screenshot from 2020-07-09 19-31-12](https://user-images.githubusercontent.com/53208493/87029373-0743a280-c21b-11ea-9534-302e5a400218.png)
+![Screenshot from 2020-07-09 19-31-18](https://user-images.githubusercontent.com/53208493/87029376-07dc3900-c21b-11ea-8f1e-eb5ca615fab4.png)
+![Screenshot from 2020-07-09 19-31-27](https://user-images.githubusercontent.com/53208493/87029377-0874cf80-c21b-11ea-8670-ab0756df2522.png)
+3. 네트워크와 포트 연결  
+- 포트 설정   
+![Screenshot from 2020-07-09 19-35-59](https://user-images.githubusercontent.com/53208493/87029769-8fc24300-c21b-11ea-9b83-06eff65dfd3f.png)
+![Screenshot from 2020-07-09 19-36-16](https://user-images.githubusercontent.com/53208493/87029772-90f37000-c21b-11ea-8cc0-d182d06575f7.png)
+
+
 4. 서브넷과 포트 연결
 5. 포트와 서버 연결
 6. 라우터와 서브넷 연결
