@@ -13,11 +13,12 @@
   - Health Monitor: 멤버의 상태를 모니터링하는 요소
 
 ### 2) LBaaS 생성
-#### (1) 웹 서버 생성
-- 로드 밸런서를 생성하고 테스트하기 위해 http 서비스가 실행 중인 인스턴스 Server 1과 Server 2를 생성
-- security-httpd 보안 그룹은 새롭게 생성하여 http 허용 규칙 추가해주기   
+#### (1) 웹 서버 생성  
+- 로드 밸런서를 생성하고 테스트하기 위해 http 서비스가 실행 중인 인스턴스 Server 1과 Server 2를 생성    
+- security-httpd 보안 그룹은 새롭게 생성하여 http 허용 규칙 추가해주기    
+
 |속성|값|
-|:-----:|:-----:|
+|:------:|:------:|
 |이름|Server 1, Server 2|
 |Image|centos7|
 |Flavor|m2.small|
@@ -48,7 +49,8 @@ openstack loadbalancer create --name lb1 --vip-subnet-id Internal2-subnet
 ```
 
 #### (3) 리스너 생성
-- 리스너 생성을 위해 필요한 옵션
+- 리스너 생성을 위해 필요한 옵션   
+
 |옵션|설명|
 |:-----:|:-----:|
 |--name|리스너의 이름|
@@ -61,6 +63,7 @@ openstack loadbalancer listener create --name listener1 --protocol HTTP --protoc
 
 #### (4) 풀 생성
 - 리스너 생성을 위해 필요한 옵션
+
 |옵션|설명|
 |:---:|:---:|
 |--name|풀의 이름|
@@ -69,6 +72,7 @@ openstack loadbalancer listener create --name listener1 --protocol HTTP --protoc
 |--protocol|풀의 프로토콜|
 
 - 로드 밸런싱 알고리즘
+
 |알고리즘|설명|
 |:---:|:---:|
 |ROUND_ROBIN|패킷을 순차적으로 포워딩|
@@ -81,6 +85,7 @@ openstack loadbalancer pool create --name pool1 --lb-algorithm ROUND_ROBIN --lis
 
 #### (5) 풀 멤버 생성
 - 풀 멤버 생성을 위해 필요한 옵션
+
 |옵션|설명|
 |:-----:|:-----:|
 |--subnet-id|멤버의 서브넷|
@@ -94,6 +99,7 @@ openstack loadbalancer member create --subnet-id Internal2-subnet --address 192.
 
 #### (6) 상태 모니터 생성
 - 상태 모니터 생성을 위해 필요한 옵션
+
 |옵션|설명|
 |:-----:|:-----:|
 |--delay|멤버의 상태 체크 주기 지정(초)|
@@ -145,8 +151,3 @@ openstack loadbalancer listener delete <listener>
 ```
 openstack loadbalancer delete <loadbalancer>
 ```
-
-
-## 2. Telemetry 서비스
-## 3. Orchestration 서비스
-## 4. Auto Scaling 구성
