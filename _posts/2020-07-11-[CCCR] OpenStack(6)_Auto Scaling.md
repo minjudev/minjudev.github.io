@@ -138,14 +138,14 @@ openstack loadbalancer member delete pool1 <member>
 ```
 openstack loadbalancer healthmonitor delete <healthmonitor>
 ```
-- 풀 삭제
+- 풀 삭제   
 ```
 openstack loadbalancer pool delete <pool>
-```
-#### (3) 리스너 삭제
+```   
+#### (3) 리스너 삭제   
 ```
 openstack loadbalancer listener delete <listener>
-```
+```   
 
 #### (4) 로드 밸런서 삭제
 ```
