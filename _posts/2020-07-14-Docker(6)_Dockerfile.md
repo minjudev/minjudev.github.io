@@ -38,9 +38,9 @@ exec 형식은 명령을 쉘을 통해 실행하지 않으며, shell 형식은 /
 ![Screenshot from 2020-07-15 11-08-26](https://user-images.githubusercontent.com/53208493/87496132-f2896380-c68d-11ea-8515-2f5f0977800f.png)
 
 해당 도커 파일로 이미지를 제작해보자.  
-`docker built -t minju/docker:fromtest .`  
+`docker built -t minju/docker:fromtest ~`  
 - -t 옵션: 생설될 이미지의 이름을 정할 수 있다.  
-- .(마지막 구두점): Dockerfile의 위치  
+- ~: Dockerfile의 위치  
 
 ![Screenshot from 2020-07-15 11-28-03](https://user-images.githubusercontent.com/53208493/87503302-d17d3e80-c69e-11ea-9d3d-d4259de3a947.png)
 
@@ -94,25 +94,28 @@ Dockerfile에 CMD 수행명령을 주는 것과 더불어 컨테이너 실행 �
 
 위에서 정의된 Dockerfile을 통해 df -h 명령어를 한 번 수행하고 종료하는 이미지를 만들 수 있다.  
 위의 Dockerfile로 이미지를 만들고 컨테이너를 실행해보았다.  
-![Screenshot from 2020-07-15 18-52-08](https://user-images.githubusercontent.com/53208493/87531405-a3aeee80-c6cc-11ea-8d1a-5802d684b804.png)
+![Screenshot from 2020-07-15 18-52-08](https://user-images.githubusercontent.com/53208493/87531405-a3aeee80-c6cc-11ea-8d1a-5802d684b804.png)  
+
 ![Screenshot from 2020-07-15 18-52-29](https://user-images.githubusercontent.com/53208493/87531408-a4478500-c6cc-11ea-98e1-175216ed189d.png)
 
 빌드된 이미지로 컨테이너를 동작시켜보면, cmd에 작성된 명령어를 실행하는 것을 확인할 수 있다.
 
-이번에는 같은 이미지로 컨테이너 실행 시 추가 인자값도 준다면 컨테이너 실행 시 어떤 변화가 나타나는지 살펴보자.
+이번에는 같은 이미지로 컨테이너 실행 시 추가 인자값도 준다면 컨테이너 실행 시 어떤 변화가 나타나는지 살펴보자.  
 docker run으로 컨테이너를 실행할 때, 추가로 ps -aef 인자값도 함께 입력하여 실행해보았다.  
 ![Screenshot from 2020-07-15 19-08-48](https://user-images.githubusercontent.com/53208493/87532925-d3f78c80-c6ce-11ea-8d65-15910ffc9ab4.png)   
 위 명령어를 실행하면 CMD로 받은 명령 대신 추가로 부여한 인자값에 대한 명령을 실행하는 것을 확인할 수 있다. 
 
 docker inspect 명령을 통해 컨테이너의 설정 내용을 자세히 살펴보자.   
-![Screenshot from 2020-07-15 19-09-00](https://user-images.githubusercontent.com/53208493/87532929-d4902300-c6ce-11ea-8618-0a49ec8f7fc5.png)  
+![Screenshot from 2020-07-15 19-09-00](https://user-images.githubusercontent.com/53208493/87532929-d4902300-c6ce-11ea-8618-0a49ec8f7fc5.png)   
+
 ![Screenshot from 2020-07-15 19-09-41](https://user-images.githubusercontent.com/53208493/87532930-d4902300-c6ce-11ea-9417-1963dd1b78f6.png)
 
 이처럼 Cmd 값이 추가로 부여한 인자값으로 바뀐 것을 알 수 있다. 
 
 #### (5) ENTRYPOINT
 ENTRYPOINT를 이용해 새로운 Dockerfile을 만들고 이미지를 빌드해보자.  
-![Screenshot from 2020-07-15 19-31-56](https://user-images.githubusercontent.com/53208493/87535102-e626fa00-c6d1-11ea-8858-c57fe00511f0.png)   
+![Screenshot from 2020-07-15 19-31-56](https://user-images.githubusercontent.com/53208493/87535102-e626fa00-c6d1-11ea-8858-c57fe00511f0.png)    
+
 ![Screenshot from 2020-07-15 19-34-15](https://user-images.githubusercontent.com/53208493/87535297-38681b00-c6d2-11ea-9236-777335fff355.png)
 
 빌드한 이미지를 이용해 새로운 컨테이너를 실행해보았다.  
@@ -120,15 +123,22 @@ ENTRYPOINT를 이용해 새로운 Dockerfile을 만들고 이미지를 빌드해
 
 이렇게 해서 실행된 결과는 cmd를 이용해 Dockerfile을 만들어줬을 때와 다른 점이 없다.  
 하지만 docker inspect를 이용해 비교해보면 차이점을 확인할 수 있다.   
-![Screenshot from 2020-07-15 19-40-36](https://user-images.githubusercontent.com/53208493/87535901-2aff6080-c6d3-11ea-9ff3-b4e38eafcfa7.png)  
+![Screenshot from 2020-07-15 19-40-36](https://user-images.githubusercontent.com/53208493/87535901-2aff6080-c6d3-11ea-9ff3-b4e38eafcfa7.png)    
+
 ![Screenshot from 2020-07-15 19-40-49](https://user-images.githubusercontent.com/53208493/87535903-2b97f700-c6d3-11ea-8e44-a602cf865301.png)  
 
 Cmd는 null로 비워져있고, Entrypoint 항목에 실행된 명령 정보가 있다.
-![Screenshot from 2020-07-15 19-48-04](https://user-images.githubusercontent.com/53208493/87536474-24bdb400-c6d4-11ea-8c6c-a9b50fad489d.png)
-![Screenshot from 2020-07-15 19-48-59](https://user-images.githubusercontent.com/53208493/87536578-44ed7300-c6d4-11ea-964b-43b9d3b2ea55.png)
+
+이제는 위의 cmd에서 했던 것과 같이 docker run 수행 시 인자를 추가로 넣어서 컨테이너를 실행해보겠다.  
+![Screenshot from 2020-07-15 19-48-04](https://user-images.githubusercontent.com/53208493/87536474-24bdb400-c6d4-11ea-8c6c-a9b50fad489d.png)  
+결과는 이처럼 에러를 출력한다.  
+그 이유를 확인하기 위해 docker inspect를 통해 설정 값들을 살펴보자.   
+![Screenshot from 2020-07-15 19-48-59](https://user-images.githubusercontent.com/53208493/87536578-44ed7300-c6d4-11ea-964b-43b9d3b2ea55.png)  
+컨테이너 실행 시 /bin/df 명령은 유지하고, 추가 인자를 CMD로 받아 처리한 것을 확인할 수 있다.  
+/bin/df 명령을 유지한 채 추가 인자도 함께 받아서 실행했기 때문에 오류가 발생해 제대로 동작하지 않은 것이다.
 
 ## 참고 사이트
-- [alice_k106님의 블로그](https://blog.naver.com/PostView.nhn?blogId=alice_k106&logNo=220646382977&parentCategoryNo=7&categoryNo=&viewDate=&isShowPopularPosts=true&from=search)
-
+- [alice_k106님의 블로그](https://blog.naver.com/PostView.nhn?blogId=alice_k106&logNo=220646382977&parentCategoryNo=7&categoryNo=&viewDate=&isShowPopularPosts=true&from=search)  
+- [ㅍㅍㅋㄷ님의 블로그](https://bluese05.tistory.com/77)
 
 
