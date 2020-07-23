@@ -1,9 +1,27 @@
 ## 1. 클러스터 내부 서비스
+파드는 클러스터 외부의 요청이나 클러스터 내부의 다른 파드의 요청에 응답해야 한다. 또, 파드가 다른 파드에서 제공하는 애플리케이션에 접근하기 위해서는 다른 파드를 찾을 수 있어야 한다.
+이를 가능하게 하려면 파드는 단일 고정 IP를 통해서 서비스를 제공해야 한다.
+
 ### 1) 서비스 소개
+서비스(Service)는 쿠버네티스 시스템에서 같은 애플리케이션을 실행하는 컨트롤러의 파드 그룹에 단일 네트워크 진입점을 제공하는 리소스이다.
+서비스가 종료될 때까지 서비스에 부여된 IP는 변경되지 않는다.
+이렇게 서비스에 부여된 IP를 통해 클라이언트는 파드에 접근하게 된다. 
+
+**kubernetes 서비스**
+이 default 네임스페이스에 처음부터 존재하던 서비스로 마스터의 API 서버로 접근할 수 있는 서비스이다.
+![Screenshot from 2020-07-23 14-44-16](https://user-images.githubusercontent.com/53208493/88255525-8a70f800-ccf3-11ea-9186-7ebe7207d0c0.png)
+
 ### 2) 서비스 생성
+#### (1) 명령을 이용하는 방법
+`kubectl expose <CONTROLLER_TYPE> <CONTROLLER_NAME> [--type=<SVC_TYPE>] --name <SVC_NAME>`
+
+#### (2) YAML 파일을 이용하는 방법
+```yaml
+
+```
 
 ### 3) 서비스 및 엔드포인트 확인
-![Screenshot from 2020-07-23 14-44-16](https://user-images.githubusercontent.com/53208493/88255525-8a70f800-ccf3-11ea-9186-7ebe7207d0c0.png)
+
 
 ![Screenshot from 2020-07-23 14-45-13](https://user-images.githubusercontent.com/53208493/88255529-8ba22500-ccf3-11ea-84a5-6969f8dc1101.png)
 
