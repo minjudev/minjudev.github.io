@@ -20,6 +20,7 @@
 ### 내용
 1. 인그레스 파일 작성
 - mynapp-ing-multi-paths-hosts.yml   
+
 ```yaml
 apiVersion: networking.k8s.io/v1beta1
 kind: Ingress
@@ -55,7 +56,8 @@ spec:
 ```
 
 2. 백엔드 서비스 파일 작성
-- 4개의 백엔드 서비스를 하나의 파일에 지정
+- 4개의 백엔드 서비스를 하나의 파일에 지정  
+
 - mynapp-svc-multi.yml   
 ```yaml
 apiVersion: v1
@@ -114,7 +116,8 @@ spec:
 ```
 
 3. 레플리카셋 파일 작성
-- 4개의 레플리카셋을 하나의 파일에 지정
+- 4개의 레플리카셋을 하나의 파일에 지정  
+
 - mynapp-rs-multi.yml   
 ```yaml
 apiVersion: apps/v1
