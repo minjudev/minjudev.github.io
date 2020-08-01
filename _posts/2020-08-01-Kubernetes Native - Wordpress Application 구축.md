@@ -414,8 +414,8 @@
     spec:
     	scaleTargetRef:
     	  apiVersion: apps/v1
-    	  kind: Deployment
-    	  name: mynapp-sts-db
+    	  kind: StatefulSet
+    	  name: mydb
     	minReplicas: 1
     	maxReplicas: 4
     	targetCPUUtilizationPercentage: 70
