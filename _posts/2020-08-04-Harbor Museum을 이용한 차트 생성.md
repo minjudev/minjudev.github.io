@@ -107,5 +107,5 @@ kubectl create secret docker-registry harbor --docker-username="admin" --docker-
 ```
 
 ## 보완할 점
-harbor registry의 인증을 위한 시크릿 생성 단계까지는 마쳤으나 harbor에 image를 올리려고 시도했을 때 계속 에러가 발생해 image를 직접 올려보지는 못했다.    
+실습 과정 중 harbor registry의 인증을 위한 시크릿 생성 단계까지는 마쳤으나 harbor에 image를 올리려고 시도했을 때 계속 에러가 발생해 image를 직접 올려보지는 못했다.    
 따라서 이러한 점을 보완하여 인터넷이 되지 않는 환경에서도 harbor에 image를 올릴 수 있도록 다시 구성해보아야겠다.
