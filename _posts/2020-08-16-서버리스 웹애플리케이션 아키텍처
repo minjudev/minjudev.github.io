@@ -1,0 +1,39 @@
+# 서버리스란?
+서버리스의 의미는 말 그대로 ‘**서버(Server)가 없다(-less)**’는 뜻이다.
+하지만 물리적인 서버가 아예 없다는 의미가 아닌 **서버에서 처리하는 작업을 클라우드 기반의 서비스로 처리**해서 서버 구축 및 관리 비용을 줄이는 구조를 의미한다. 
+따라서 개발 기간과 비용을 단축할 수 있을 뿐 아니라, 서버 운영과 유지 보수의 어려움을 크게 줄일 수 있다.
+
+# 서버리스의 개념
+서버리스는 두 가지 개념으로 나눌 수 있다.
+1. 서비스형 서버리스(Serviceful Serverless)
+서비스형 서버리스는 직접 서버를 구축하고 프로비저닝하고 관리할 필요 없이, **서버의 역할을 서비스 형태로 사용**하는 것을 의미한다. 예를 들어 인증의 경우, 인증과 관련된 시스템을 직접 구축할 필요 없이 [Auth0](https://auth0.com/) 이나 [Amazon Cognito](https://aws.amazon.com/ko/cognito/) 와 같은 인증 서비스를 사용하면 대부분의 구현을 대체할 수 있다.
+
+2. FaaS(Functions as a Service)
+FaaS(Function-as-a-Service)는 **함수를 서비스로 제공**하는 형태이다. 개발자는 로직이 담긴 함수 구현만 신경쓰면 된다.
+함수(코드)를 실행하기 위해 서버를 올리고 런타임을 구성하고 코드를 배포해서 실행해야 하는 일련의 과정을 없애고, 
+사용자가 원하는 로직을 함수로 작성만 해놓으면 함수가 실행된다. 
+이러한 함수는 서버가 계속 대기하면서 사용자의 요청을 처리하는 것이 아니라, 이벤트가 있을 때마다 실행되는 작은 코드이다. 
+
+# Serverless Application
+그렇다면 서버리스 애플리케이션이란 어떤 유형의 애플리케이션을 말하는 것일까?
+
+- 클라이언트에서 사용자 인터랙션 로직을 대부분 처리
+- 자주 사용하는 서버 기능은 서버리스형 서비스로 처리
+- 각종 연계를 위해 사용하는 작은 함수(FaaS)
+
+먼저 클라이언트에서 사용자와 상호작용하는 로직의 대부분을 처리해서 서버의 역할을 줄인다. 
+그리고 서버에서 제공하는 기능은 서버리스형 서비스를 적극 활용하고, 각 서비스 간 로직은 FaaS를 이용해 구현한다.
+
+다음은 **AWS 기반의 서버리스 웹애플리케이션 아키텍처**이다.
+[https://github.com/aws-samples/lambda-refarch-webapp](https://github.com/aws-samples/lambda-refarch-webapp)
+
+![https://futurecreator.github.io/2019/03/14/serverless-architecture/web_application_architecture.png](https://futurecreator.github.io/2019/03/14/serverless-architecture/web_application_architecture.png)
+
+일반적인 웹 애플리케이션을 서버리스 형태로 구성한 아키텍처이다.
+
+- 사용자에게 보여줄 웹 페이지 및 정적 콘텐츠는 S3 에 저장 후 호스팅
+- 사용자 요청은 API Gateway 로 받기
+- 처리할 내용은 Lambda 에 작성
+- 데이터 저장은 DB 서비스(DynamoDB) 사용
+- 사용자 인증은 Amazon Cognito 사용
+- Route 53으로 도메인 구입 및 제공
