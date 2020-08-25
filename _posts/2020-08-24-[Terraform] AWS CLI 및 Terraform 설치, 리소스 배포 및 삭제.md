@@ -121,14 +121,14 @@ resource "aws_s3_bucket" "example" {
 }
 ```
 
-위 구성 파일에 정의한 리소스 및 속성의 주요 속성
-- aws_instance: AWS 인스턴스
+위 구성 파일에 정의한 리소스 및 속성의 주요 속성  
+- aws_instance: AWS 인스턴스  
 	- ami: 이미지 ID
 	- instance_type: 인스턴스 타입
-- aws_eip: Elastic IP
+- aws_eip: Elastic IP  
 	- vpc: EIP가 VPC에 있는지 여부
 	- instance: EIP를 할당할 EC2 인스턴스의 ID
-- aws_s3_bucket: S3 버킷
+- aws_s3_bucket: S3 버킷  
 	- bucket: S3 버킷 이름
 	- acl: 버킷의 접근 제어
 	
@@ -136,19 +136,19 @@ resource "aws_s3_bucket" "example" {
 `terraform apply`
 
 ### 1) 암시적 종속성
-암시적 종속성은 Terraform이 자동으로 리소스 간에 의존성을 분석해 리소스의 생성/변경/삭제 등 순서를 결정한다.  
-example1 인스턴스와 ip 리소스가 "암시적 종속성"에 해당된다.  
+암시적 종속성은 Terraform이 자동으로 리소스 간에 의존성을 분석해 리소스의 생성/변경/삭제 등 순서를 결정한다.    
+example1 인스턴스와 ip 리소스가 "암시적 종속성"에 해당된다.    
 ```
 resource "aws_eip" "ip" {
   vpc = true
   instance = aws_instance.example1.id
 }
 ```
-Elastic IP를 할당하기 전에 인스턴스가 생성되어 있어야 한다.
+Elastic IP를 할당하기 전에 인스턴스가 생성되어 있어야 한다.  
 
-### 2) 명시적 종속성
-명시적 종속성은 리소스 정의 시 사용자가 직접 리소스 간에 의존성을 명확하게 정의하는 것을 의미한다.
-example1 인스턴스는 example S3 버팃을 의존하고 있다.
+### 2) 명시적 종속성  
+명시적 종속성은 리소스 정의 시 사용자가 직접 리소스 간에 의존성을 명확하게 정의하는 것을 의미한다.  
+example1 인스턴스는 example S3 버팃을 의존하고 있다.  
 ```
 resource "aws_instance" "example1" {
   ami = "ami-05438a9ce08100b25"
@@ -163,39 +163,95 @@ resource "aws_s3_bucket" "example" {
 }
 ```
 
+</br>
+
 ## 6. 프로비저너
-```bash
+### 1) 프로비저너
+프로비저너(Provisioner)는 Terraform 자체에서 제공하는 구성 관리 기능이다.  
+Terraform의 내장 프로비저너  
+- chef: Chef 구성 관리 도구  
+- file: 파일 및 디렉토리 복사  
+- habitat: Chef Habitat  
+- local-exec: Terraform이 실행되는 로컬에서 실행  
+- puppet: Puppet 구성 관리 도구  
+- remote-exec: 원격 인스턴스에서 실행  
+- salt-masterless: SaltStack 구성 관리 도구  
+
+### 2) 프로비저너를 이용한 구성 파일 리소스 정의
+다음은 remote-exec 및 local-exec를 정의한 Terraform 구성 파일이다.
+```tf
 provider "aws" {
   profile = "default"
   region = "ap-northeast-2"
 }
-
 resource "aws_key_pair" "example" {
   key_name = "example-key"
-  public_key = file("~/mykey.pub")
+  public_key = file("./mykey.pub")
 }
-
 resource "aws_instance" "example" {
-  ami = "ami-05438a9ce08100b25"
+  ami = "ami-0d63024969e6f5191"
   instance_type = "t2.micro"
   key_name = aws_key_pair.example.key_name
-  vpc_security_group_ids = [aws_security_group.example-sg.id]
   connection {
     type = "ssh"
     user = "ubuntu"
-    private_key = file("~/mykey")
+    private_key = file("./mykey")
     host = self.public_ip
   }
-
   provisioner "remote-exec" {
-    inline = [
+    inline =  [
       "sudo apt update",
-      "sudo apt install -y nginx",
+      "sudo apt install nginx",
       "sudo systemctl enable nginx",
       "sudo systemctl start nginx"
     ]
   }
+  provisioner "local-exec" {
+    command = "echo ${aws_instance.example.public_ip} > ipaddr.txt"
+  }
+}
+```
+- remote-exec 프로비저너: connection 블록의 속성을 이용하여 접속해, 원격 인스턴스에서 실행되는 스크립트 정의  
+- local-exec 프로비저너: Terraform이 설치된 로컬 시스템에서 실행되는 스크립트 정의  
+ 
+### 3) 변경 사항 적용
+- 인스턴스에 사용할 SSH 키 쌍 생성  
+`ssh-keygen -f mykey`
+- 변경 사항 적용  
+`terraform apply`
 
+인스턴스 생성 시 보안 그룹을 지정하지 않으면 default 보안 그룹이 사용된다.    
+하지만 이 default 보안 그룹은 외부에서 SSH 접속이 허용되지 않는다.  
+
+### 4) 구성 파일 수정
+```tf
+provider "aws" {
+  profile = "default"
+  region = "ap-northeast-2"
+}
+resource "aws_key_pair" "example" {
+  key_name = "example-key"
+  public_key = file("./mykey.pub")
+}
+resource "aws_instance" "example" {
+  ami = "ami-0d63024969e6f5191"
+  instance_type = "t2.micro"
+  key_name = aws_key_pair.example.key_name
+  vpc_security_group_ids = [aws_security_group.example-sg.id] // 보안 그룹 추가
+  connection {
+    type = "ssh"
+    user = "ubuntu"
+    private_key = file("./mykey")
+    host = self.public_ip
+  }
+  provisioner "remote-exec" {
+    inline =  [
+      "sudo apt update",
+      "sudo apt install nginx",
+      "sudo systemctl enable nginx",
+      "sudo systemctl start nginx"
+    ]
+  }
   provisioner "local-exec" {
     command = "echo ${aws_instance.example.public_ip} > ipaddr.txt"
   }
@@ -215,7 +271,7 @@ resource "aws_security_group" "example-sg" {
     protocol = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
-   ingress {
+  ingress {
     from_port = 80
     to_port = 80
     protocol = "tcp"
@@ -223,5 +279,10 @@ resource "aws_security_group" "example-sg" {
   }
 }
 ```
+보안 그룹에서 인바인드 규칙은 SSH와 HTTP를 열어주고, 아웃바운드 규칙은 모든 포트를 열어준다.    
 
-![Screenshot from 2020-08-25 10-38-47](https://user-images.githubusercontent.com/53208493/91112989-7be57a00-e6bf-11ea-8a30-a5e79d537a7e.png)
+### 5) 변경 사항 적용
+`terraform apply`  
+
+### 6) Nginx 웹 서버 접속
+![Screenshot from 2020-08-25 10-38-47](https://user-images.githubusercontent.com/53208493/91149002-7c006c80-e6f5-11ea-94a0-8e1615c0b8c0.png)
