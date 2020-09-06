@@ -75,6 +75,7 @@ cgroup은 control group의 약자로, 프로세스 또는 쓰레드를 그룹화
 namespace라는 공간에는 다수의 오브젝트를 격리할 수 있다.   
 예를 들어, 원래는 동일한 호스트에서 동일한 PID를 가질 수 없지만, 서로 다른 namespace에서는 동일한 PID를 가질 수 있다.  
 namespace의 종류는 다음과 같다.  
+
 |이름|설명|
 |:---:|:---:|
 |PID namespace|namespace에서 독립적인 PID 사용|
