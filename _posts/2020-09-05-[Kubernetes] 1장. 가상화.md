@@ -76,14 +76,15 @@ namespace라는 공간에는 다수의 오브젝트를 격리할 수 있다.
 예를 들어, 원래는 동일한 호스트에서 동일한 PID를 가질 수 없지만, 서로 다른 namespace에서는 동일한 PID를 가질 수 있다.  
 namespace의 종류는 다음과 같다.  
 
-|이름|설명|
-|:---:|:---:|
-|PID namespace|namespace에서 독립적인 PID 사용|
-|Network namespace|namespace에서 독립적인 네트워크 사용|
-|UID namespace|namespace에서 독립적인 UID 사용|
-|Mount namespace|namespace에서 독립적인 Mount Point 사용|
-|UTS namespace|namespace에서 독립적인 호스트네임 사용|
-|IPC namespace|namespace에서 독립적인 IPC 사용|
+|이름|설명|  
+|:---:|:---:|  
+|PID namespace|namespace에서 독립적인 PID 사용|  
+|Network namespace|namespace에서 독립적인 네트워크 사용|  
+|UID namespace|namespace에서 독립적인 UID 사용|  
+|Mount namespace|namespace에서 독립적인 Mount Point 사용|  
+|UTS namespace|namespace에서 독립적인 호스트네임 사용|  
+|IPC namespace|namespace에서 독립적인 IPC 사용|  
+
 > IPC(Inter-Process Communication)  
 > IPC는 영문 약자 그대로 "프로세스 간 통신"이라는 뜻이며, 프로세스 사이의 데이터 통신은 IPC를 통해서 가능하다.  
   프로세스는 IPC를 통하여 다른 프로세스에게 데이터를 송신하거나, 다른 프로세스로부터 데이터를 수신할 수 있고, 커널은 이 프로세스 통신을 위해 다양한 IPC 매커니즘을 제공한다.   
